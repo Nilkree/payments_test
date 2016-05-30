@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>Переадресация</div>
+<form name="pay" method="post" action="https://tip.pay-trio.com/ru/" accept-charset="UTF-8">
+<input type="hidden" name="amount" value={{data.amount}} />
+<input type="hidden" name="currency" value="{{data.currency}}" />
+<input type="hidden" name="shop_id" value="{{data.shop_id}}" />
+<input type="hidden" name="sign" value="{{data.sign}}" />
+<input type="hidden" name="shop_invoice_id" value="{{data.shop_invoice_id}}" />
+<input type="hidden" name="description" value="{{data.description}}" />
+</form>
+<script>
+    window.onload = function(){
+        document.forms['pay'].submit()
+    }
+</script>
+</body>
+</html>

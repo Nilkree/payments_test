@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>Переадресация</div>
+<form name="pay" method="{{data.method}}" action="{{data.source}}">
+  <input type="hidden" name="WMI_MERCHANT_ID" value="{{data.data.WMI_MERCHANT_ID}}" />
+  <input type="hidden" name="WMI_PAYMENT_AMOUNT" value="{{data.data.WMI_PAYMENT_AMOUNT}}" />
+  <input type="hidden" name="WMI_CURRENCY_ID" value="{{data.data.WMI_CURRENCY_ID}}" />
+  <input type="hidden" name="WMI_PAYMENT_NO" value="{{data.data.WMI_PAYMENT_NO}}" />
+  <input type="hidden" name="WMI_PTENABLED" value="{{data.data.WMI_PTENABLED}}" />
+  <input type="hidden" name="WMI_SIGNATURE" value="{{data.data.WMI_SIGNATURE}}" />
+  <!--<input type="submit"/>-->
+</form>
+<script>
+    window.onload = function(){
+        document.forms['pay'].submit()
+    }
+</script>
+</body>
+</html>
