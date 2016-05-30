@@ -84,7 +84,7 @@ def main_page():
             # print(sign)
             response = requests.post('https://central.pay-trio.com/invoice', json=data)
             if response.status_code != 200:
-                print(response.status_code)
+                # print(response.status_code)
                 error = 'Cannot receive invoice'
                 app.logger.warning('An error occurred: response with code %s, %s',
                                    response.status_code, response.reason)
