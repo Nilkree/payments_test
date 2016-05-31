@@ -5,7 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-<div>Переадресация</div>
 <form name="pay" method="{{data.method}}" action="{{data.source}}">
   <input type="hidden" name="WMI_MERCHANT_ID" value="{{data.data.WMI_MERCHANT_ID}}" />
   <input type="hidden" name="WMI_PAYMENT_AMOUNT" value="{{data.data.WMI_PAYMENT_AMOUNT}}" />
@@ -16,9 +15,7 @@
   <!--<input type="submit"/>-->
 </form>
 <script>
-    window.onload = function(){
-        document.forms['pay'].submit()
-    }
+    document.forms['pay'].submit()
 </script>
 </body>
 </html>

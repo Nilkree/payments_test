@@ -39,7 +39,8 @@ def teardown_request(exception):
 
 def get_sign(data, keys_required, secret):
     keys_sorted = sorted(keys_required)
-    string_to_sign = (":".join([str(data[k]) for k in keys_sorted])+':' + secret).encode('utf8')
+    string_to_sign = (":".join([str(data[k]) for k in keys_sorted]) + secret).encode('utf8')
+    # print(string_to_sign)
     sign = hashlib.md5(string_to_sign).hexdigest()
     return sign
 
@@ -52,14 +53,14 @@ def main_page():
         if request.form['currency'] == 'RUB':
             keys_required = ['amount', 'currency', 'shop_id', 'shop_invoice_id']
             data = {"shop_id": SHOP_ID,
-                    "amount": request.form['amount'],
+                    "amount": round(float(request.form['amount']), 2),
                     "currency": 643,
-                    'shop_invoice_id': 1
+                    'shop_invoice_id': 1,
+                    'description': request.form['description']
                     }
 
             sign = get_sign(data, keys_required, SECRET)
             data['sign'] = sign
-            data['description'] = request.form['description']
             g.db.execute('insert into payments (amount, currency, date, description) values (?, ?, ?, ?)',
                  [data['amount'], data['currency'], datetime.now().isoformat(), data['description']])
             g.db.commit()
@@ -68,20 +69,20 @@ def main_page():
             app.logger.info('Send user to pay with currency %s', request.form['currency'])
             return render_template('redirect_page.html', data=data)
         elif request.form['currency'] == 'UAH':
-            keys_required = ['amount',  'currency', 'payway', 'shop_id', 'shop_invoice_id']
+            keys_required = ['amount',  'currency', "payway", 'shop_id', 'shop_invoice_id']
             data = {"shop_id": SHOP_ID,
                     "amount": request.form['amount'],
                     "payway": "w1_uah",
                     "currency": 980,
-                    'shop_invoice_id': 1
+                    'shop_invoice_id': 1,
+                    'description': request.form['description']
                     }
             sign = get_sign(data, keys_required, SECRET)
             data['sign'] = sign
-            data['description'] = request.form['description']
             g.db.execute('insert into payments (amount, currency, date, description) values (?, ?, ?, ?)',
                  [data['amount'], data['currency'], datetime.now().isoformat(), data['description']])
             g.db.commit()
-            # print(sign)
+            print(sign)
             response = requests.post('https://central.pay-trio.com/invoice', json=data)
             if response.status_code != 200:
                 # print(response.status_code)
@@ -95,6 +96,7 @@ def main_page():
                     app.logger.warning('An error occurred: %s', error)
                 else:
                     new_data = response['data']
+                    print(new_data)
                     app.logger.info('Send user to pay with currency %s', request.form['currency'])
                     return render_template('invoice_redirect.html', data=new_data)
     return render_template('main_page.html', error=error)
@@ -108,3 +110,4 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     app.run()
+    init_db()

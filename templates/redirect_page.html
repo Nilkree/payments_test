@@ -5,7 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-<div>Переадресация</div>
 <form name="pay" method="post" action="https://tip.pay-trio.com/ru/" accept-charset="UTF-8">
 <input type="hidden" name="amount" value={{data.amount}} />
 <input type="hidden" name="currency" value="{{data.currency}}" />
@@ -15,9 +14,7 @@
 <input type="hidden" name="description" value="{{data.description}}" />
 </form>
 <script>
-    window.onload = function(){
-        document.forms['pay'].submit()
-    }
+    document.forms['pay'].submit()
 </script>
 </body>
 </html>
