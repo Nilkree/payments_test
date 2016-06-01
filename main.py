@@ -99,7 +99,14 @@ def main_page():
                     # print(new_data)
                     app.logger.info('Send user to pay with currency %s', request.form['currency'])
                     return render_template('invoice_redirect.html', data=new_data)
-    return render_template('main_page.html', error=error)
+    return render_template('payment_form.html', error=error)
+
+
+@app.route('/payments_list')
+def payments_list_page():
+    cur = g.db.execute('select * from payments order by id')
+    payments = [dict(id=row[0], amount=row[1], currency=row[2], date=row[3], description=row[4]) for row in cur.fetchall()]
+    return render_template('payments_list.html', payments=payments)
 
 
 if __name__ == '__main__':

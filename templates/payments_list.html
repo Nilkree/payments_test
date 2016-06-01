@@ -1,0 +1,52 @@
+{% extends "main_page.html" %}
+
+{% block stylesheets %}
+<link href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div class="row navigation">
+    <a href="{{ url_for('main_page') }}" class="btn btn-default">К платежной форме</a>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Список платежей</h3>
+        <table id="datatable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Сума</th>
+                    <th>Валюта</th>
+                    <th>Время отправки</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody id="questions_list">
+                {% for payment in payments %}
+                <tr>
+                    <td>{{payment.id}}</td>
+                    <td>{{payment.amount}}</td>
+                    <td>{% if payment.currency == 980 %}UAH{% elif payment.currency == 643 %}RUB{% endif %}</td>
+                    <td>{{payment.date[:10]}} {{payment.date[11:19]}}</td>
+                    <td>{{payment.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap.js') }}"></script>
+<script>
+    $(function() {
+        $('#datatable').dataTable({
+            "language": {
+                "url": "{{ url_for('static', filename='dataTables.russian.lang') }}"
+            }
+        });
+    });
+</script>
+{% endblock %}

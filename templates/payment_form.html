@@ -1,0 +1,40 @@
+{% extends "main_page.html" %}
+{% block content %}
+<div class="row navigation">
+    <a href="{{ url_for('payments_list_page') }}" class="btn btn-default">К списку платежей</a>
+</div>
+<div class="row">
+    <h3>Платежная форма</h3>
+    <form action="/" class="form-horizontal" role="form" method="post">
+        <div class="form-group">
+            <label class="col-md-2 col-md-offset-3 control-label">Сумма оплаты</label>
+            <div class="col-md-3">
+                <input name="amount" type="number" class="form-control" min=0 step="any" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-md-offset-3 control-label">Валюта оплаты</label>
+            <div class="col-md-3">
+                <select class="form-control" name="currency" required>
+                    <option value="RUB">RUB</option>
+                    <option value="UAH">UAH</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-md-offset-3 control-label">Описание товара</label>
+            <div class="col-md-3">
+                <textarea name="description" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="succesButton">
+            <button type="submit" class="col-md-4 col-md-offset-4 btn btn-success">Оплатить</button>
+        </div>
+    </form>
+</div>
+{% if error %}
+<div class="row erorr">
+    <p>Ошибка: {{error}}</p>
+</div>
+{% endif %}
+{% endblock %}
