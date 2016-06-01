@@ -71,7 +71,7 @@ def main_page():
         elif request.form['currency'] == 'UAH':
             keys_required = ['amount',  'currency', "payway", 'shop_id', 'shop_invoice_id']
             data = {"shop_id": SHOP_ID,
-                    "amount": request.form['amount'],
+                    "amount": round(float(request.form['amount']), 2),
                     "payway": "w1_uah",
                     "currency": 980,
                     'shop_invoice_id': 1,
@@ -82,7 +82,7 @@ def main_page():
             g.db.execute('insert into payments (amount, currency, date, description) values (?, ?, ?, ?)',
                  [data['amount'], data['currency'], datetime.now().isoformat(), data['description']])
             g.db.commit()
-            print(sign)
+            # print(sign)
             response = requests.post('https://central.pay-trio.com/invoice', json=data)
             if response.status_code != 200:
                 # print(response.status_code)
@@ -96,7 +96,7 @@ def main_page():
                     app.logger.warning('An error occurred: %s', error)
                 else:
                     new_data = response['data']
-                    print(new_data)
+                    # print(new_data)
                     app.logger.info('Send user to pay with currency %s', request.form['currency'])
                     return render_template('invoice_redirect.html', data=new_data)
     return render_template('main_page.html', error=error)

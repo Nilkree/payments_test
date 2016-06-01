@@ -12,7 +12,8 @@
   <input type="hidden" name="WMI_PAYMENT_NO" value="{{data.data.WMI_PAYMENT_NO}}" />
   <input type="hidden" name="WMI_PTENABLED" value="{{data.data.WMI_PTENABLED}}" />
   <input type="hidden" name="WMI_SIGNATURE" value="{{data.data.WMI_SIGNATURE}}" />
-  <!--<input type="submit"/>-->
+  <input type="hidden" name="WMI_FAIL_URL" value="{{data.data.WMI_FAIL_URL}}" />
+  <input type="hidden" name="WMI_SUCCESS_URL" value="{{data.data.WMI_SUCCESS_URL}}" />
 </form>
 <script>
     document.forms['pay'].submit()
